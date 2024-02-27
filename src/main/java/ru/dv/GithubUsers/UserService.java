@@ -19,11 +19,19 @@ public class UserService {
 
     @Async
     public CompletableFuture<User> findUser(String user) throws InterruptedException {
-        log.info("Looking up " + user);
+        log.info("Async Looking up " + user);
         String url = String.format("https://api.github.com/users/%s", user);
         User results = restTemplate.getForObject(url, User.class);
         // Artificial delay of 1s for demonstration purposes
         Thread.sleep(1000L);
         return CompletableFuture.completedFuture(results);
+    }
+
+    public User findUserOne(String user) throws InterruptedException {
+        log.info("Simple Looking up " + user);
+        String url = String.format("https://api.github.com/users/%s", user);
+        User results = restTemplate.getForObject(url, User.class);
+        Thread.sleep(1000L);
+        return results;
     }
 }
