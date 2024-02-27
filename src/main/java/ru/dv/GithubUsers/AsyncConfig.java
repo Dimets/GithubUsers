@@ -18,11 +18,11 @@ public class AsyncConfig {
         log.info("Creating Async Task Executor");
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         // Количество основных потоков 2: количество потоков, инициализированных при создании пула потоков
-        executor.setCorePoolSize(2);
+        executor.setCorePoolSize(3);
         // Максимальное количество потоков 2: максимальное количество потоков в пуле потоков, только после того,
         // как буферная очередь будет заполнена, будет применяться к потокам, которые превышают количество
         // основных потоков
-        executor.setMaxPoolSize(2);
+        executor.setMaxPoolSize(3);
         // Буферная очередь 500: очередь, используемая для буферизации задач выполнения
         executor.setQueueCapacity(500);
         // Разрешить потоку время простоя в течение 60 секунд: когда поток превышает основной поток,
