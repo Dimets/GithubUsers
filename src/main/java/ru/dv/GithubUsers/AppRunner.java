@@ -5,6 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Component
@@ -32,7 +35,29 @@ public class AppRunner implements CommandLineRunner {
         log.info("--> {}", page1.get());
         log.info("--> {}", page2.get());
         log.info("--> {}", page3.get());
+        log.info("--> {}", page4.get());
 
+        //apply list of CF
+        log.info("New realization");
+        List<String> users = new ArrayList<>(Arrays.asList("PivotalSoftware", "CloudFoundry", "Spring-Projects",
+                "Dimets"));
+        List<CompletableFuture<User>> cfsUsers = new ArrayList<>();
+        start = System.currentTimeMillis();
+
+        for (String user : users) {
+            cfsUsers.add(userService.findUser(user));
+        }
+
+        CompletableFutures.allOf(cfsUsers);
+
+        for (CompletableFuture<User> cfsUser : cfsUsers) {
+            log.info("--> {}", cfsUser.get());
+        }
+
+        log.info("New Async Elapsed time: {}", (System.currentTimeMillis() - start));
+
+
+        // not async test
         start = System.currentTimeMillis();
         User user1 = userService.findUserOne("PivotalSoftware");
         User user2 = userService.findUserOne("CloudFoundry");
